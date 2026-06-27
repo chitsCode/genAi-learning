@@ -5,6 +5,10 @@ import jwt from "jsonwebtoken";
 import { createAppError } from "../utils/createAppError.js";
 
 export const register = async (name, email, password) => {
+  if (typeof email !== 'string' || typeof name !== 'string' || typeof password !== 'string') {
+    throw createAppError('Invalid input: name, email, and password must be strings', 400);
+  }
+
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw createAppError('User already exists', 409); 
@@ -22,6 +26,10 @@ export const register = async (name, email, password) => {
 };
 
 export const login = async (email, password) => {
+  if (typeof email !== 'string' || typeof password !== 'string') {
+    throw createAppError('Invalid input: email and password must be strings', 400);
+  }
+
   const user = await User.findOne({ email });
 
   if (!user) {
