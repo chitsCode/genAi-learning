@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createAppError } from "../utils/createAppError.js";
 
-export const register = async (name, email, password, isAdmin) => {
+export const register = async (name, email, password) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw createAppError('User already exists', 409); 
@@ -15,7 +15,6 @@ export const register = async (name, email, password, isAdmin) => {
     name,
     email,
     password: hashedPassword,
-    isAdmin,
   });
 
   const { password: _, ...userWithoutPassword } = user.toObject();

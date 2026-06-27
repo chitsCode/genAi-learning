@@ -26,7 +26,12 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Middlewares
-app.use(cors());
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+};
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ 
     limit: '10mb', 
